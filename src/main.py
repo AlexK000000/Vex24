@@ -10,12 +10,12 @@ ControllerType.PRIMARY
 controller = Controller(PRIMARY)
 
 myVariable = 0
-
+TChainToggle = 2 #1 is forward 2 is still 3 is reverse
 piston = DigitalOut(brain.three_wire_port.b)
 
 #double check ports
 
-LeftD_F = Motor(Ports.PORT4,GearSetting.RATIO_18_1, True)
+LeftD_F = Motor(Ports.PORT4,GearSetting.RATIO_18_1, True) #looks like the ratio 18 to 1 is the only we're using, other ones might give us either more torque or speed, have we messed arround with them?
 LeftD_B = Motor(Ports.PORT3,GearSetting.RATIO_18_1, True)
 
 
@@ -23,7 +23,7 @@ RightD_F = Motor(Ports.PORT2,GearSetting.RATIO_18_1, False)
 RightD_B = Motor(Ports.PORT1,GearSetting.RATIO_18_1, False)
 
 
-imu1 = Inertial(Ports.PORT13) #what is this??? I dont remember putting this in
+imu1 = Inertial(Ports.PORT13) #what is this??? I dont remember putting this in - looks like inertial sensor inout slot? we need to learn how to use it-{matteo}
 left_drive = MotorGroup(LeftD_F, LeftD_B,)
 right_drive = MotorGroup(RightD_F, RightD_B)
 drivetrain = DriveTrain(right_drive, left_drive)
@@ -40,7 +40,15 @@ def Tchain_STOP():
     Tchain.set_stopping(BRAKE)
     Tchain.stop
 
-is_driver = False
+"""def TchainMove():
+    if TChainToggle == 1: Tchain.set_velocity(100, PERCENT)
+    Tchain.spin(FORWARD)
+    if TChainToggle == 2: Tchain.set_stopping(BRAKE)
+    Tchain.stop
+    if TChainToggle == 3: Tchain.set_velocity(100, PERCENT)
+    Tchain.spin(REVERSE)""" #works to define the functions for the tchain 
+
+is_driver = False #why do we need to have this here? Shouldn't this be presumed false by default?
 
 def piston_in():
     piston.set(False)
@@ -61,7 +69,7 @@ def drive_drive():
     right_drive.spin(FORWARD)
 
 def drive_slow():
-    right_drive.set_velocity(95, PERCENT)
+    right_drive.set_velocity(95, PERCENT) #95% is sloW????
     left_drive.set_velocity(95, PERCENT)
     left_drive.spin(FORWARD)
     right_drive.spin(FORWARD)
@@ -85,7 +93,7 @@ def drive_r():
     right_drive.spin(REVERSE)
 
 
-myVariable = 0
+myVariable = 0 #what is this and why is it defined twice?
 
 
 
@@ -117,13 +125,27 @@ def driver():
         left_drive.set_velocity(controller.axis3.position(), PERCENT)
         left_drive.spin(FORWARD)
 
+        """if controller.buttonY.pressed(TchainMove):
+            if TChainToggle == 2: TChainToggle = 1 
+            elif TChainToggle == 3: TChainToggle = 1
+            elif TChainToggle == 1: TChainToggle = 2
+
+        if controller.buttonRight.pressed(TchainMove):
+            if TChainToggle == 2: TChainToggle = 3 
+            elif TChainToggle == 3: TChainToggle = 2
+            elif TChainToggle == 1: TChainToggle = 3""" #Does all the Tchain stuff and makes it toggleable in coordination with the function up top
+
         if controller.buttonX.pressing():
             Tchain.stop()
 
         if controller.buttonY.pressing():
             Tchain.set_velocity(100, PERCENT)
             Tchain.spin(FORWARD)
-  
+          
+        if controller.buttonRight.pressing():
+            Tchain.set_velocity(100, PERCENT)
+            Tchain.spin(REVERSE) #position in code adjusted but actual code hasn't been.
+
         if controller.buttonA.pressing():
             piston_out()
 
@@ -140,10 +162,7 @@ def driver():
         if controller.buttonLeft.pressing():
             intake.set_velocity(100, PERCENT)
             intake.spin(REVERSE)
-        
-        if controller.buttonRight.pressing():
-            Tchain.set_velocity(100, PERCENT)
-            Tchain.spin(REVERSE)
+
         
 
         #if controller.buttonL1.pressing():
