@@ -1,3 +1,4 @@
+"""This is for skills, I will routinely update so the driver portion is identical to main but auton is different."""
 
 from vex import *
 import time
@@ -207,6 +208,11 @@ def driver():
 
 # if controller.buttonLeft.pressing(): # type: ignore
 # in_l.set_velocity(70, PERCENT)
+def turn(direction, degrees):
+    if direction == 'F':
+        
+     elif direction =='R':
+        
 
 
 def autonomous():
