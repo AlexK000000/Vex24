@@ -219,8 +219,8 @@ def autonomous():
     left_drive.spin(REVERSE)
     right_drive.set_velocity(80, PERCENT)
     right_drive.spin(REVERSE) 
-    time.sleep(1)
-    piston_out()
+    time.sleep(0.6)
+    """piston_out()
     right_drive.stop()
     left_drive.stop()
     time.sleep(1)
@@ -233,15 +233,15 @@ def autonomous():
     left_drive.spin(REVERSE)
     right_drive.set_velocity(100, PERCENT)
     right_drive.spin(REVERSE) 
-    time.sleep(0.5)
+    time.sleep(0.5)"""
     Tchain_ON()
     time.sleep(2)
-    Tchain_STOP() #at this point the robot is backwards, hopefully holding a mobile goal with a ring on it
-    left_drive.set_velocity(80, PERCENT) #try to make a 90* turn to the nearest ring. Assuming left side
-    left_drive.spin(FORWARD)
-    time.sleep(0.5)
-    left_drive.stop()
-    time.sleep(1)
+    Tchain_STOP() #the robot should have the ring on it
+    left_drive.set_velocity(80, PERCENT)
+    left_drive.spin(REVERSE)
+    right_drive.set_velocity(80, PERCENT)
+    right_drive.spin(REVERSE)
+    time.sleep(0.6)
 
     
 

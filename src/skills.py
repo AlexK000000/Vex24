@@ -188,31 +188,19 @@ def driver():
 # #HOLD: will cause the Drivetrain to come to an immediate stop, and returns it to its stopped position if moved.
 
 
-
-# if controller.buttonUp.pressing(): # type: ignore
-#time.sleep(0.1)
-
-# if controller.buttonDown.pressing(): # type: ignore
-
-# if controller.buttonR2.pressing(): # type: ignore
-
-
-# if controller.buttonL2.pressing(): # type: ignore
-
-#if controller.buttonL1.pressing():
-
-# if controller.buttonR1.pressing():
-
-# if controller.buttonRight.pressing():
-# if controller.buttonLeft.pressing():
-
-# if controller.buttonLeft.pressing(): # type: ignore
-# in_l.set_velocity(70, PERCENT)
-def turn(direction, degrees):
-    if direction == 'F':
-        
-     elif direction =='R':
-        
+def turn (x, TurnT): #function for turning, 0 for right, 1 for left, 2nd input is for time, abt 0.1 s per 30 degrees
+    if x==0: #Right
+        left_drive.set_velocity(80, PERCENT)
+        left_drive.spin(FORWARD)
+        right_drive.set_velocity(80, PERCENT)
+        right_drive.spin(REVERSE) 
+        time.sleep(TurnT)
+    if x==1: # Left
+        left_drive.set_velocity(80, PERCENT)
+        left_drive.spin(REVERSE)
+        right_drive.set_velocity(80, PERCENT)
+        right_drive.spin(FORWARD) 
+        time.sleep(TurnT)
 
 
 def autonomous():
@@ -220,12 +208,12 @@ def autonomous():
     global l_pos
     global is_driver
     is_driver = False
-    piston_in()
+    turn(0,0.3)
     left_drive.set_velocity(80, PERCENT)
     left_drive.spin(REVERSE)
     right_drive.set_velocity(80, PERCENT)
     right_drive.spin(REVERSE) 
-    time.sleep(1)
+    """time.sleep(1)
     piston_out()
     right_drive.stop()
     left_drive.stop()
@@ -247,7 +235,7 @@ def autonomous():
     left_drive.spin(FORWARD)
     time.sleep(0.5)
     left_drive.stop()
-    time.sleep(1)
+    time.sleep(1)"""
 
     
 
